@@ -1,0 +1,23 @@
+{
+  "name": "linktree-host",
+  "version": "1.0.0",
+  "description": "Self-hosted link-in-bio page with basic click/view stats",
+  "private": true,
+  "main": "server.js",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "dependencies": {
+    "better-sqlite3": "^11.3.0",
+    "dotenv": "^16.4.5",
+    "ejs": "^3.1.10",
+    "express": "^4.19.2",
+    "express-basic-auth": "^1.2.1",
+    "express-rate-limit": "^7.4.0",
+    "helmet": "^7.1.0"
+  }
+}

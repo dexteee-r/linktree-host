@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= config.title %></title>
+  <meta name="description" content="<%= config.bio || config.title %>" />
+  <link rel="stylesheet" href="/public/style.css" />
+  <% if (config.theme && config.theme.accentColor) { %>
+  <style>:root { --accent: <%= config.theme.accentColor %>; }</style>
+  <% } %>
+</head>
+<body>
+  <main class="card">
+    <% if (config.avatarUrl) { %>
+      <img class="avatar" src="<%= config.avatarUrl %>" alt="<%= config.title %>" />
+    <% } %>
+    <h1><%= config.title %></h1>
+    <% if (config.bio) { %><p class="bio"><%= config.bio %></p><% } %>
+
+    <nav class="links">
+      <% config.links.forEach(function (link) { %>
+        <a class="link-btn" href="/l/<%= link.slug %>" target="_blank" rel="noopener noreferrer">
+          <% if (link.icon) { %><span class="icon"><%= link.icon %></span><% } %>
+          <span class="label"><%= link.label %></span>
+        </a>
+      <% }); %>
+    </nav>
+
+    <footer>
+      <span><%= config.footer || '' %></span>
+    </footer>
+  </main>
+</body>
+</html>

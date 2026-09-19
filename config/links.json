@@ -1,0 +1,35 @@
+{
+  "title": "dexter_elmzn",
+  "bio": "Dev, homelab & réparation phone/PC",
+  "avatarUrl": "",
+  "footer": "elmzn.be",
+  "theme": {
+    "accentColor": "#6c5ce7"
+  },
+  "links": [
+    {
+      "slug": "instagram",
+      "label": "Instagram",
+      "icon": "📸",
+      "url": "https://instagram.com/dexter_elmzn"
+    },
+    {
+      "slug": "site",
+      "label": "elmzn.be",
+      "icon": "🌐",
+      "url": "https://elmzn.be"
+    },
+    {
+      "slug": "github",
+      "label": "GitHub",
+      "icon": "💻",
+      "url": "https://github.com/CHANGE_ME"
+    },
+    {
+      "slug": "contact",
+      "label": "Me contacter",
+      "icon": "✉️",
+      "url": "mailto:CHANGE_ME@elmzn.be"
+    }
+  ]
+}

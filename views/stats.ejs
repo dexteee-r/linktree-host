@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stats — Linktree</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="stylesheet" href="/public/style.css" />
+</head>
+<body>
+  <main class="card">
+    <h1>Statistiques</h1>
+    <p>Vues totales de la page : <strong><%= pageViews %></strong></p>
+    <table class="stats-table">
+      <thead>
+        <tr><th>Lien</th><th>Clics</th></tr>
+      </thead>
+      <tbody>
+        <% stats.forEach(function (s) { %>
+          <tr><td><%= s.label %></td><td><%= s.clicks %></td></tr>
+        <% }); %>
+      </tbody>
+    </table>
+  </main>
+</body>
+</html>

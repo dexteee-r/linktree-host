@@ -1,16 +1,14 @@
 FROM node:20-slim
 
-RUN addgroup --system --gid 1000 app && adduser --system --uid 1000 --ingroup app app
-
 WORKDIR /app
 
 COPY package*.json ./
 RUN npm ci --omit=dev
 
 COPY . .
-RUN mkdir -p data && chown -R app:app /app
+RUN mkdir -p data && chown -R node:node /app
 
-USER app
+USER node
 
 EXPOSE 3000
 

@@ -55,13 +55,14 @@ app.use(
       directives: {
         defaultSrc: ["'self'"],
         imgSrc: ["'self'", 'data:', 'https:'],
-        styleSrc: ["'self'", "'unsafe-inline'"],
+        styleSrc: ["'self'", "'unsafe-inline'", 'https://cdn.jsdelivr.net'],
+        fontSrc: ["'self'", 'https://cdn.jsdelivr.net'],
       },
     },
   })
 );
 
-app.use('/public', express.static(path.join(__dirname, 'public'), { maxAge: '1d' }));
+app.use('/public', express.static(path.join(__dirname, 'public'), { etag: true, lastModified: true }));
 
 const pageLimiter = rateLimit({ windowMs: 60 * 1000, max: 60 });
 const redirectLimiter = rateLimit({ windowMs: 60 * 1000, max: 30 });

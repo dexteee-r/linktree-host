@@ -33,6 +33,20 @@ body {
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
+.glow {
+  position: fixed;
+  top: -120px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 480px;
+  height: 480px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(16, 185, 129, 0.16), transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+  filter: blur(10px);
+}
+
 .wrapper {
   max-width: 420px;
   margin: 0 auto;
@@ -43,6 +57,21 @@ body {
 
 .section-block {
   margin-bottom: 40px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .section-block {
+    animation: fade-up 0.5s ease-out both;
+  }
+
+  .section-block:nth-of-type(2) {
+    animation-delay: 0.1s;
+  }
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .section-header {
@@ -128,6 +157,7 @@ h1 .muted {
 }
 
 .link-btn {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 14px;
@@ -139,7 +169,37 @@ h1 .muted {
   text-decoration: none;
   color: inherit;
   cursor: pointer;
+  overflow: hidden;
   transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .link-btn {
+    opacity: 0;
+    animation: fade-up 0.4s ease-out forwards;
+    animation-delay: calc(0.15s + var(--i, 0) * 0.06s);
+  }
+}
+
+.link-btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(100deg, transparent 40%, rgba(16, 185, 129, 0.12) 50%, transparent 60%);
+  background-size: 250% 100%;
+  background-position: 100% 0;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .link-btn::before {
+    transition: background-position 0.5s ease-out;
+  }
+
+  .link-btn:hover::before,
+  .link-btn:focus-visible::before {
+    background-position: 0 0;
+  }
 }
 
 .link-btn:hover,
@@ -161,17 +221,27 @@ h1 .muted {
 }
 
 .link-icon {
+  position: relative;
   font-size: 20px;
-  opacity: 0.9;
+  color: var(--text-muted);
   line-height: 1;
   flex-shrink: 0;
+  transition: color 0.2s ease;
+}
+
+.link-btn:hover .link-icon,
+.link-btn:focus-visible .link-icon {
+  color: var(--accent);
+}
+
+.link-title {
+  position: relative;
 }
 
 .link-icon svg {
   width: 22px;
   height: 22px;
   display: block;
-  fill: currentColor;
 }
 
 .link-title {

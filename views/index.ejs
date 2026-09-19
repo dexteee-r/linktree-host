@@ -3,8 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#050505" />
   <title><%= config.title %></title>
   <meta name="description" content="<%= config.bio || config.title %>" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><rect width='24' height='24' fill='%23050505'/><text x='3' y='17' font-family='monospace' font-size='14' fill='%2339ff9d'>&gt;_</text></svg>" />
   <link rel="stylesheet" href="/public/style.css" />
   <% if (config.theme && config.theme.accentColor) { %>
   <style>:root { --accent: <%= config.theme.accentColor %>; }</style>
@@ -12,23 +14,28 @@
 </head>
 <body>
   <main class="card">
+    <p class="prompt-line"><span class="sigil">~$</span> whoami</p>
+
     <% if (config.avatarUrl) { %>
       <img class="avatar" src="<%= config.avatarUrl %>" alt="<%= config.title %>" />
+    <% } else { %>
+      <div class="avatar-fallback" aria-hidden="true"><%= config.title.slice(0, 2).toUpperCase() %></div>
     <% } %>
-    <h1><%= config.title %></h1>
+
+    <h1><%= config.title %><span class="cursor" aria-hidden="true">_</span></h1>
     <% if (config.bio) { %><p class="bio"><%= config.bio %></p><% } %>
 
-    <nav class="links">
+    <nav class="links" aria-label="Liens">
       <% config.links.forEach(function (link) { %>
         <a class="link-btn" href="/l/<%= link.slug %>" target="_blank" rel="noopener noreferrer">
-          <% if (link.icon) { %><span class="icon"><%= link.icon %></span><% } %>
+          <span class="prompt" aria-hidden="true">&gt;</span>
           <span class="label"><%= link.label %></span>
         </a>
       <% }); %>
     </nav>
 
     <footer>
-      <span><%= config.footer || '' %></span>
+      <span class="sigil">//</span> <span><%= config.footer || '' %></span>
     </footer>
   </main>
 </body>

@@ -61,7 +61,14 @@ linktree-host/
    - Vérifie le **vrai** nom du réseau Docker de NPM : `docker network ls`
      (ne te fie pas à un nom deviné — la stack NPM de cette VM peut avoir
      été démarrée avec n'importe quel nom de projet Compose).
-   - Crée le dossier cible : `mkdir -p /opt/linktree-host`
+   - Crée le dossier cible et le sous-dossier `data` **avec les bons
+     droits** (le conteneur tourne en non-root, UID/GID fixe `1000:1000` —
+     sans ça, Docker crée `data/` en root et SQLite plante au démarrage
+     avec `SQLITE_CANTOPEN`) :
+     ```bash
+     mkdir -p /opt/linktree-host/data
+     chown -R 1000:1000 /opt/linktree-host/data
+     ```
    - Copie `.env.example` en `.env` dans ce dossier et remplis
      `STATS_USER`, `STATS_PASS` et `NPM_NETWORK_NAME` (obligatoire —
      `docker compose up` refuse de démarrer si elle est absente, pour

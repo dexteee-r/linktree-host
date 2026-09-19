@@ -1,6 +1,6 @@
 FROM node:20-slim
 
-RUN addgroup --system app && adduser --system --ingroup app app
+RUN addgroup --system --gid 1000 app && adduser --system --uid 1000 --ingroup app app
 
 WORKDIR /app
 

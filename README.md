@@ -83,15 +83,23 @@ linktree-host/
    - Édite `config/links.json` avec tes vrais liens (remplace les
      `CHANGE_ME`).
    - Lance : `./deploy.sh` (WSL ou Git Bash sous Windows — nécessite
-     `rsync` et `ssh`).
+     `tar` et `ssh` — pas de dépendance à `rsync`).
 
-3. **Dans Nginx Proxy Manager** (une seule fois, via son interface web) :
+3. **Chez OVH (DNS)** : ajoute un enregistrement `links.elmzn.be` (CNAME
+   vers ton DDNS, comme fait pour `mytcg.elmzn.be`) si ce n'est pas déjà
+   couvert par un enregistrement existant.
+
+4. **Dans Nginx Proxy Manager** (une seule fois, via son interface web) :
    - Ajoute un Proxy Host, ex. `links.elmzn.be` → forward vers
      `linktree-host:3000` (nom du conteneur, puisqu'il est sur le même
      réseau Docker que NPM).
    - Active SSL / Let's Encrypt comme pour tes autres sous-domaines.
-   - (Optionnel) Ajoute une Access List sur le path `/stats` pour la
-     restreindre à ton LAN/VPN en plus du Basic Auth.
+   - ⚠️ **Pas d'Access List LAN-only sur ce proxy host** — contrairement à
+     `elmzn.be`/`n8n.elmzn.be`/`files.elmzn.be`, cette page doit être
+     publique : c'est un lien de bio destiné à être cliqué depuis
+     Instagram par des gens hors de ton LAN.
+   - (Optionnel) Ajoute une Access List sur le path `/stats` uniquement
+     pour la restreindre à ton LAN/VPN en plus du Basic Auth.
 
 ## Utilisation au quotidien
 

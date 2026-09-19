@@ -1,18 +1,27 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Stats — Linktree</title>
-  <meta name="theme-color" content="#050505" />
-  <meta name="robots" content="noindex, nofollow" />
-  <link rel="stylesheet" href="/public/style.css" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#050505">
+<title>Stats — Linktree</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/geist@1.3.0/dist/fonts/geist-sans/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/geist@1.3.0/dist/fonts/geist-mono/style.css">
+<link rel="stylesheet" href="/public/style.css">
 </head>
 <body>
-  <main class="card">
-    <p class="prompt-line"><span class="sigil">~$</span> cat stats.log</p>
-    <h1>Statistiques</h1>
-    <p class="bio">Vues totales de la page : <strong><%= pageViews %></strong></p>
+
+<div class="noise-overlay"></div>
+
+<div class="wrapper">
+  <section class="section-block">
+    <p class="section-header">// stats</p>
+    <h1 style="font-size: 1.8rem;">Statistiques</h1>
+    <p class="bio-text">Vues totales de la page : <strong style="color: var(--text);"><%= pageViews %></strong></p>
+  </section>
+
+  <section class="section-block">
     <table class="stats-table">
       <thead>
         <tr><th>Lien</th><th>Clics</th></tr>
@@ -23,6 +32,7 @@
         <% }); %>
       </tbody>
     </table>
-  </main>
+  </section>
+</div>
 </body>
 </html>

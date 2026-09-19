@@ -7,11 +7,13 @@
     {
       "slug": "instagram",
       "label": "Instagram",
+      "icon": "📸",
       "url": "https://instagram.com/dexter_elmzn"
     },
     {
       "slug": "site",
       "label": "elmzn.be",
+      "icon": "🌐",
       "url": "https://elmzn.be"
     },
     {
@@ -22,6 +24,7 @@
     {
       "slug": "contact",
       "label": "Me contacter",
+      "icon": "✉️",
       "url": "mailto:CHANGE_ME@elmzn.be"
     }
   ]

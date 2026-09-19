@@ -17,4 +17,4 @@ services:
 networks:
   npm_network:
     external: true
-    name: ${NPM_NETWORK_NAME:?set NPM_NETWORK_NAME in .env after checking: docker network ls}
+    name: "${NPM_NETWORK_NAME:?set NPM_NETWORK_NAME in .env (check with: docker network ls)}"

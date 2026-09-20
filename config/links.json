@@ -11,6 +11,21 @@
       "url": "https://instagram.com/dexter_elmzn"
     },
     {
+      "slug": "x",
+      "label": "X",
+      "url": "https://x.com/dexter_elmzn"
+    },
+    {
+      "slug": "youtube",
+      "label": "YouTube",
+      "url": "https://www.youtube.com/channel/UCpnhhVXXsgPDwqOwab1A8eQ"
+    },
+    {
+      "slug": "labo",
+      "label": "Réparation & montage PC",
+      "url": "https://www.instagram.com/dexteeer.labo/"
+    },
+    {
       "slug": "site",
       "label": "elmzn.be",
       "icon": "🌐",

@@ -1,4 +1,5 @@
 :root {
+  color-scheme: dark;
   --bg: #050505;
   --zinc-900: #18181b;
   --zinc-800: #27272a;
@@ -7,6 +8,7 @@
   --text-muted: #a1a1aa;
   --border: rgba(255, 255, 255, 0.08);
   --glass: rgba(255, 255, 255, 0.03);
+  --radius: 20px;
 }
 
 *, *::before, *::after {
@@ -123,7 +125,7 @@ body {
 .avatar {
   width: 64px;
   height: 64px;
-  border-radius: 16px;
+  border-radius: var(--radius);
   object-fit: cover;
   border: 1px solid var(--border);
   margin-bottom: 20px;
@@ -163,14 +165,18 @@ h1 .muted {
   gap: 14px;
   background: var(--glass);
   border: 1px solid var(--border);
-  border-radius: 20px;
+  border-radius: var(--radius);
   padding: 16px 20px;
   min-height: 48px;
   text-decoration: none;
   color: inherit;
   cursor: pointer;
   overflow: hidden;
-  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+    border-color 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+    transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -184,21 +190,22 @@ h1 .muted {
 .link-btn::before {
   content: "";
   position: absolute;
-  inset: 0;
-  background: linear-gradient(100deg, transparent 40%, rgba(16, 185, 129, 0.12) 50%, transparent 60%);
-  background-size: 250% 100%;
-  background-position: 100% 0;
+  top: 0;
+  left: -60%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(100deg, transparent, rgba(16, 185, 129, 0.14), transparent);
   pointer-events: none;
 }
 
 @media (prefers-reduced-motion: no-preference) {
   .link-btn::before {
-    transition: background-position 0.5s ease-out;
+    transition: transform 0.5s ease-out;
   }
 
   .link-btn:hover::before,
   .link-btn:focus-visible::before {
-    background-position: 0 0;
+    transform: translateX(260%);
   }
 }
 
@@ -234,10 +241,6 @@ h1 .muted {
   color: var(--accent);
 }
 
-.link-title {
-  position: relative;
-}
-
 .link-icon svg {
   width: 22px;
   height: 22px;
@@ -245,6 +248,12 @@ h1 .muted {
 }
 
 .link-title {
+  position: relative;
+  min-width: 0;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   font-weight: 700;
   font-size: 15px;
   letter-spacing: -0.01em;

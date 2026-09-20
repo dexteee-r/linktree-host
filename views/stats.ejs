@@ -15,24 +15,84 @@
 
 <div class="noise-overlay"></div>
 
-<div class="wrapper">
+<div class="wrapper wrapper-wide">
   <section class="section-block">
     <p class="section-header">// stats</p>
     <h1 style="font-size: 1.8rem;">Statistiques</h1>
-    <p class="bio-text">Vues totales de la page : <strong style="color: var(--text);"><%= pageViews %></strong></p>
+    <p class="bio-text">Derniers 30 jours et totaux depuis le début.</p>
   </section>
 
   <section class="section-block">
+    <div class="stats-grid">
+      <div class="stat-card">
+        <p class="stat-value"><%= totalViews %></p>
+        <p class="stat-label">Vues</p>
+      </div>
+      <div class="stat-card">
+        <p class="stat-value"><%= totalClicks %></p>
+        <p class="stat-label">Clics</p>
+      </div>
+      <div class="stat-card">
+        <p class="stat-value"><%= ctr.toFixed(1) %>%</p>
+        <p class="stat-label">CTR global</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-block">
+    <p class="section-header">// tendance (30 jours)</p>
+    <div class="trend-chart" role="img" aria-label="Vues par jour sur les 30 derniers jours">
+      <% trend.forEach(function (t) { %>
+        <div class="trend-bar" style="--h: <%= Math.round((t.views / maxViews) * 100) %>%" title="<%= t.day %> — <%= t.views %> vues, <%= t.clicks %> clics"></div>
+      <% }); %>
+    </div>
+    <div class="trend-axis">
+      <span><%= trend[0].day %></span>
+      <span><%= trend[trend.length - 1].day %></span>
+    </div>
+  </section>
+
+  <section class="section-block">
+    <p class="section-header">// liens</p>
     <table class="stats-table">
       <thead>
-        <tr><th>Lien</th><th>Clics</th></tr>
+        <tr><th>Lien</th><th>Clics</th><th>CTR</th></tr>
       </thead>
       <tbody>
         <% stats.forEach(function (s) { %>
-          <tr><td><%= s.label %></td><td><%= s.clicks %></td></tr>
+          <tr><td><%= s.label %></td><td><%= s.clicks %></td><td><%= s.ctr.toFixed(1) %>%</td></tr>
         <% }); %>
       </tbody>
     </table>
+  </section>
+
+  <section class="section-block">
+    <p class="section-header">// sources</p>
+    <table class="stats-table">
+      <thead>
+        <tr><th>Origine</th><th>Vues</th><th>%</th></tr>
+      </thead>
+      <tbody>
+        <% sources.forEach(function (s) { %>
+          <tr><td style="text-transform: capitalize;"><%= s.label %></td><td><%= s.count %></td><td><%= s.pct.toFixed(1) %>%</td></tr>
+        <% }); %>
+        <% if (sources.length === 0) { %>
+          <tr><td colspan="3" class="bio-text">Pas encore de données.</td></tr>
+        <% } %>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="section-block">
+    <p class="section-header">// appareils</p>
+    <div class="device-bar">
+      <div class="device-segment device-mobile" style="--w: <%= mobilePct.toFixed(1) %>%"></div>
+      <div class="device-segment device-desktop" style="--w: <%= desktopPct.toFixed(1) %>%"></div>
+    </div>
+    <div class="device-legend">
+      <span><span class="dot-mobile"></span> Mobile — <%= mobilePct.toFixed(1) %>%</span>
+      <span><span class="dot-desktop"></span> Desktop — <%= desktopPct.toFixed(1) %>%</span>
+    </div>
   </section>
 </div>
 </body>

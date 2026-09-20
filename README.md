@@ -1,7 +1,8 @@
 # linktree-host
 
-Page link-in-bio auto-hébergée, avec stats basiques (clics par lien + vues
-totales), pas d'interface d'admin exposée publiquement.
+Page link-in-bio auto-hébergée, avec stats (vues, clics, CTR par lien,
+tendance 30 jours, sources de trafic, mobile/desktop), pas d'interface
+d'admin exposée publiquement.
 
 ## Architecture retenue
 
@@ -21,10 +22,13 @@ Docker + Nginx Proxy Manager, VPN WireGuard existant) :
   aucune surface d'attaque côté admin. Tu édites le JSON en local, le
   script `deploy.sh` fait tout le reste.
 - **Stats** : SQLite local (`data/stats.db`, monté en volume Docker donc
-  persistant entre redéploiements). Compteur de clics par lien (route
-  `/l/<slug>` qui incrémente puis redirige) + compteur de vues totales de
-  la page. Consultable sur `/stats`, protégé par Basic Auth (identifiants
-  dans `.env` côté serveur — jamais commités).
+  persistant entre redéploiements). Table d'événements horodatés (`view`
+  sur `/`, `click` sur `/l/<slug>`) — aucune IP ni user-agent complet
+  stockés, juste des catégories agrégées (référent : direct/instagram/
+  google/x/youtube/tiktok/autre, appareil : mobile/desktop). Permet de
+  calculer vues, clics, CTR global et par lien, tendance sur 30 jours,
+  répartition sources et appareils. Consultable sur `/stats`, protégé par
+  Basic Auth (identifiants dans `.env` côté serveur — jamais commités).
 - **Image Docker** : `node:20-slim` (Debian/glibc) plutôt qu'Alpine —
   `better-sqlite3` est un module natif compilé, et les binaires
   précompilés publiés pour lui ciblent surtout glibc ; Alpine (musl)

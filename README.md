@@ -105,6 +105,28 @@ linktree-host/
    - (Optionnel) Ajoute une Access List sur le path `/stats` uniquement
      pour la restreindre à ton LAN/VPN en plus du Basic Auth.
 
+## Ordre des liens
+
+L'ordre dans `config/links.json` = l'ordre affiché sur la page. Ordre
+actuel et raison de chaque position (dernière révision : 2026-09-21) :
+
+1. **Réparation & montage PC** (`labo`) — l'activité qui rapporte, en
+   premier.
+2. **Me contacter** (`contact`) — pendant que le visiteur est chaud.
+3. **Twitch** — l'activité la plus fréquente (stream quasi quotidien),
+   donc le plus de contenu frais à offrir.
+4. **Instagram** — le hub de communication/communauté, où les gens
+   peuvent vraiment échanger.
+5. **X** — en croissance, on veut y pousser du trafic depuis les autres
+   plateformes.
+6. **YouTube** — pas une priorité actuelle, donc en dernier des réseaux.
+7. **elmzn.be** (`site`)
+8. **GitHub** — public différent (devs/recruteurs), en tout dernier.
+
+Pour changer l'ordre : réordonne les entrées dans `config/links.json`
+(les icônes suivent automatiquement via le `slug`, voir `views/index.ejs`),
+puis `./deploy.sh`. Pense à mettre à jour cette liste si l'ordre change.
+
 ## Utilisation au quotidien
 
 - **Changer un lien / le titre / la bio** : édite `config/links.json` en

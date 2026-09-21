@@ -18,9 +18,11 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const CONFIG_PATH = process.env.CONFIG_PATH || path.join(__dirname, 'config', 'links.json');
 const DB_PATH = process.env.DB_PATH || path.join(__dirname, 'data', 'stats.db');
+const BACKUP_DIR = process.env.BACKUP_DIR || path.join(path.dirname(DB_PATH), 'backups');
 
 // Make sure the data directory exists before opening the DB (first run / fresh volume).
 fs.mkdirSync(path.dirname(DB_PATH), { recursive: true });
+fs.mkdirSync(BACKUP_DIR, { recursive: true });
 
 const db = new Database(DB_PATH);
 db.pragma('journal_mode = WAL');
@@ -82,6 +84,25 @@ function bucketDevice(userAgent) {
 function today() {
   return new Date().toISOString().slice(0, 10);
 }
+
+// Daily snapshot of the full events table as CSV, for later offline analysis.
+// Written into data/backups/, which lives on the same host bind-mount as the
+// DB itself — a snapshot per day, never overwritten, so history accumulates
+// even if the SQLite file is later lost or reset.
+function backupStatsSnapshot() {
+  const rows = db.prepare('SELECT id, type, slug, referrer, device, day FROM events ORDER BY id').all();
+  const header = 'id,type,slug,referrer,device,day';
+  const csvEscape = (v) => (v === null || v === undefined ? '' : String(v).replace(/"/g, '""'));
+  const lines = rows.map((r) =>
+    [r.id, r.type, csvEscape(r.slug), csvEscape(r.referrer), r.device, r.day].join(',')
+  );
+  const outPath = path.join(BACKUP_DIR, `events-${today()}.csv`);
+  fs.writeFileSync(outPath, [header, ...lines].join('\n') + '\n');
+  console.log(`[backup] wrote ${rows.length} rows to ${outPath}`);
+}
+
+backupStatsSnapshot();
+setInterval(backupStatsSnapshot, 24 * 60 * 60 * 1000);
 
 function loadConfig() {
   const raw = fs.readFileSync(CONFIG_PATH, 'utf-8');

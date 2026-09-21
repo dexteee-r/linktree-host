@@ -116,14 +116,19 @@ linktree-host/
 
 ## Sauvegarde
 
-⚠️ Il n'existe **aucun job de backup automatisé sur le Beelink
-(pve-extranet)** actuellement — ni pour ce service, ni pour les autres
-services qui y tournent (n8n, MyTCG). `/opt/linktree-host/data/stats.db`
-et `config/links.json` sont les deux seuls fichiers d'état qui ne sont
-pas dans le dépôt : à sauvegarder manuellement (scp) tant qu'aucune
-solution Restic n'est mise en place sur cette machine. Perte acceptable
-en pratique (juste des stats de clics + la config des liens, ré-éditable
-en 2 minutes), mais à garder en tête.
+- **Stats (`data/stats.db`)** : le serveur écrit lui-même un snapshot CSV
+  complet de la table `events` dans `data/backups/events-AAAA-MM-JJ.csv`
+  au démarrage puis toutes les 24h (voir `backupStatsSnapshot()` dans
+  `server.js`). Un fichier par jour, jamais écrasé, pour pouvoir étudier
+  l'historique plus tard (Excel, pandas, etc.) même si la base SQLite est
+  un jour perdue ou reset. Comme `data/`, ce dossier est sur le bind
+  mount Docker donc persiste entre redéploiements — mais reste **local à
+  vm-extranet** : pas encore copié hors de cette machine (décision
+  volontaire, pas de confiance SSH inter-machines mise en place pour ça).
+- Il n'existe toujours **aucun job de backup Proxmox/Restic** sur le
+  Beelink (pve-extranet) pour ce service ni pour les autres qui y tournent
+  (n8n, MyTCG) — `config/links.json` reste à sauvegarder manuellement
+  (scp) si besoin, mais reste trivial à ré-éditer en 2 minutes.
 
 ## Pistes d'évolution (pas faites maintenant, volontairement)
 

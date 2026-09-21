@@ -5,6 +5,22 @@
   "footer": "elmzn.be",
   "links": [
     {
+      "slug": "labo",
+      "label": "Réparation & montage PC",
+      "url": "https://www.instagram.com/dexteeer.labo/"
+    },
+    {
+      "slug": "contact",
+      "label": "Me contacter",
+      "icon": "✉️",
+      "url": "mailto:dexterelmzn@gmail.com"
+    },
+    {
+      "slug": "twitch",
+      "label": "Twitch",
+      "url": "https://www.twitch.tv/dexteee_r"
+    },
+    {
       "slug": "instagram",
       "label": "Instagram",
       "icon": "📸",
@@ -21,16 +37,6 @@
       "url": "https://www.youtube.com/channel/UCpnhhVXXsgPDwqOwab1A8eQ"
     },
     {
-      "slug": "twitch",
-      "label": "Twitch",
-      "url": "https://www.twitch.tv/dexteee_r"
-    },
-    {
-      "slug": "labo",
-      "label": "Réparation & montage PC",
-      "url": "https://www.instagram.com/dexteeer.labo/"
-    },
-    {
       "slug": "site",
       "label": "elmzn.be",
       "icon": "🌐",
@@ -40,12 +46,6 @@
       "slug": "github",
       "label": "GitHub",
       "url": "https://github.com/dexteee-r"
-    },
-    {
-      "slug": "contact",
-      "label": "Me contacter",
-      "icon": "✉️",
-      "url": "mailto:dexterelmzn@gmail.com"
     }
   ]
 }

@@ -61,8 +61,26 @@ const REFERRER_RULES = [
   [/google\./i, 'google'],
 ];
 
-function bucketReferrer(referrerHeader, ownHost) {
-  if (!referrerHeader) return 'direct';
+// In-app browsers (Instagram, TikTok, Facebook, ...) usually strip the
+// Referer header entirely, so a click opened from their in-app webview
+// would otherwise be miscounted as "direct". They still leave a signature
+// in the User-Agent, so we fall back to that only when Referer is missing.
+const UA_APP_RULES = [
+  [/Instagram/i, 'instagram (app)'],
+  [/FBAN|FBAV|FB_IAB/i, 'facebook (app)'],
+  [/musical_ly|BytedanceWebview|TikTok/i, 'tiktok (app)'],
+  [/Snapchat/i, 'snapchat (app)'],
+];
+
+function bucketReferrer(referrerHeader, ownHost, userAgent) {
+  if (!referrerHeader) {
+    if (userAgent) {
+      for (const [pattern, label] of UA_APP_RULES) {
+        if (pattern.test(userAgent)) return label;
+      }
+    }
+    return 'direct';
+  }
   let host;
   try {
     host = new URL(referrerHeader).hostname.replace(/^www\./, '');
@@ -147,7 +165,7 @@ app.get('/', pageLimiter, (req, res) => {
   insertEvent.run(
     'view',
     null,
-    bucketReferrer(req.get('Referrer'), req.hostname),
+    bucketReferrer(req.get('Referrer'), req.hostname, req.get('User-Agent')),
     bucketDevice(req.get('User-Agent')),
     today()
   );

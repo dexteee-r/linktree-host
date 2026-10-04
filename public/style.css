@@ -35,19 +35,39 @@ body {
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
-.glow {
+.aurora {
   position: fixed;
-  top: -120px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 480px;
-  height: 480px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(16, 185, 129, 0.16), transparent 70%);
-  pointer-events: none;
+  inset: 0;
   z-index: 0;
-  filter: blur(10px);
+  overflow: hidden;
+  pointer-events: none;
 }
+
+.blob {
+  position: absolute;
+  width: 55vmax;
+  height: 55vmax;
+  max-width: 640px;
+  max-height: 640px;
+  border-radius: 50%;
+  filter: blur(70px);
+  opacity: 0.22;
+  will-change: transform;
+}
+
+.blob-1 { top: -18%; left: -10%; background: radial-gradient(circle, #10b981, transparent 65%); }
+.blob-2 { top: 30%; right: -20%; background: radial-gradient(circle, #14b8a6, transparent 65%); opacity: 0.16; }
+.blob-3 { bottom: -20%; left: 5%; background: radial-gradient(circle, #0ea5e9, transparent 65%); opacity: 0.12; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .blob-1 { animation: drift-1 22s ease-in-out infinite alternate; }
+  .blob-2 { animation: drift-2 28s ease-in-out infinite alternate; }
+  .blob-3 { animation: drift-3 34s ease-in-out infinite alternate; }
+}
+
+@keyframes drift-1 { to { transform: translate(18vw, 14vh) scale(1.15); } }
+@keyframes drift-2 { to { transform: translate(-22vw, -10vh) scale(0.9); } }
+@keyframes drift-3 { to { transform: translate(14vw, -18vh) scale(1.2); } }
 
 .wrapper {
   max-width: 420px;
@@ -72,8 +92,8 @@ body {
 }
 
 @keyframes fade-up {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; translate: 0 12px; }
+  to { opacity: 1; translate: 0 0; }
 }
 
 .section-header {
@@ -151,7 +171,47 @@ h1 {
 
 h1 .muted {
   color: var(--text-muted);
+  background: linear-gradient(100deg, #71717a 0%, #71717a 35%, var(--accent) 50%, #71717a 65%, #71717a 100%);
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
+
+@media (prefers-reduced-motion: no-preference) {
+  h1 .muted { animation: shimmer 6s ease-in-out infinite; }
+}
+
+@keyframes shimmer {
+  0%, 100% { background-position: 100% 0; }
+  50% { background-position: 0 0; }
+}
+
+.tagline {
+  font-family: "Geist Mono", monospace;
+  font-size: 13px;
+  color: var(--accent);
+  min-height: 1.5em;
+  margin-top: 8px;
+}
+
+.tagline::before { content: "> "; opacity: 0.6; }
+
+.tagline::after {
+  content: "";
+  display: inline-block;
+  width: 7px;
+  height: 1em;
+  margin-left: 3px;
+  vertical-align: -2px;
+  background: var(--accent);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .tagline::after { animation: blink 1s steps(2, start) infinite; }
+}
+
+@keyframes blink { to { visibility: hidden; } }
 
 .bio-text {
   font-family: "Geist Mono", monospace;
@@ -190,7 +250,7 @@ h1 .muted {
 @media (prefers-reduced-motion: no-preference) {
   .link-btn {
     opacity: 0;
-    animation: fade-up 0.4s ease-out forwards;
+    animation: fade-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
     animation-delay: calc(0.15s + var(--i, 0) * 0.06s);
   }
 }
@@ -217,10 +277,94 @@ h1 .muted {
   }
 }
 
+.link-btn {
+  --brand: var(--accent);
+}
+
+.link-btn[data-slug="twitch"] { --brand: #9146ff; }
+.link-btn[data-slug="youtube"] { --brand: #ff3b3b; }
+.link-btn[data-slug="instagram"] { --brand: #e1306c; }
+.link-btn[data-slug="labo"] { --brand: #f59e0b; }
+.link-btn[data-slug="x"] { --brand: #e4e4e7; }
+.link-btn[data-slug="github"] { --brand: #a78bfa; }
+
+.link-btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(220px circle at var(--mx, 50%) var(--my, 50%), color-mix(in srgb, var(--brand) 22%, transparent), transparent 70%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.link-btn:hover::after,
+.link-btn:focus-visible::after,
+.link-btn:active::after {
+  opacity: 1;
+}
+
+.link-arrow {
+  position: relative;
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  color: var(--brand);
+  opacity: 0;
+  translate: -6px 0;
+  transition: opacity 0.25s ease, translate 0.25s ease;
+}
+
+.link-btn:hover .link-arrow,
+.link-btn:focus-visible .link-arrow {
+  opacity: 1;
+  translate: 0 0;
+}
+
 .link-btn:hover,
 .link-btn:focus-visible {
   background: rgba(255, 255, 255, 0.06);
-  border-color: var(--accent);
+  border-color: color-mix(in srgb, var(--brand) 70%, transparent);
+}
+
+.link-btn:active {
+  transform: scale(0.97);
+}
+
+@property --angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+.link-btn.featured {
+  padding: 20px 22px;
+  border-color: transparent;
+  background:
+    linear-gradient(var(--bg), var(--bg)) padding-box,
+    conic-gradient(from var(--angle), transparent 0 55%, var(--brand) 80%, transparent 100%) border-box,
+    linear-gradient(var(--border), var(--border)) border-box;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .link-btn.featured { animation: fade-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards, spin-border 5s linear infinite; animation-delay: calc(0.15s + var(--i, 0) * 0.06s), 0s; }
+}
+
+@keyframes spin-border { to { --angle: 360deg; } }
+
+.featured .link-title { font-size: 16px; white-space: normal; line-height: 1.25; }
+
+.link-badge {
+  position: relative;
+  font-family: "Geist Mono", monospace;
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--brand);
+  border: 1px solid color-mix(in srgb, var(--brand) 50%, transparent);
+  border-radius: 100px;
+  padding: 2px 8px;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -246,7 +390,7 @@ h1 .muted {
 
 .link-btn:hover .link-icon,
 .link-btn:focus-visible .link-icon {
-  color: var(--accent);
+  color: var(--brand);
 }
 
 .link-icon svg {
@@ -427,4 +571,8 @@ footer {
   .wrapper {
     padding: 40px 16px;
   }
+}
+
+@media (max-width: 480px) {
+  .link-badge { display: none; }
 }

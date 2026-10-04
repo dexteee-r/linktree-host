@@ -2,11 +2,14 @@
   "title": "dexter_elmzn",
   "bio": "Ton couteau suisse professionel",
   "avatarUrl": "",
+  "taglines": ["Réparation & montage PC", "Streams sur Twitch", "Code, homelab & self-hosting"],
   "footer": "elmzn.be",
   "links": [
     {
       "slug": "labo",
       "label": "Réparation & montage PC",
+      "featured": true,
+      "badge": "pro",
       "url": "https://www.instagram.com/dexteeer.labo/"
     },
     {

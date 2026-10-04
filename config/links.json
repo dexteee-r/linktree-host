@@ -2,7 +2,11 @@
   "title": "dexter_elmzn",
   "bio": "Ton couteau suisse professionel",
   "avatarUrl": "",
-  "taglines": ["Réparation & montage PC", "Streams sur Twitch", "Code, homelab & self-hosting"],
+  "taglines": [
+    "Réparation & montage PC",
+    "Streams sur Twitch",
+    "Code, homelab & self-hosting"
+  ],
   "footer": "elmzn.be",
   "links": [
     {
@@ -15,40 +19,43 @@
     {
       "slug": "contact",
       "label": "Me contacter",
-      "icon": "✉️",
       "url": "mailto:dexterelmzn@gmail.com"
     },
     {
       "slug": "twitch",
       "label": "Twitch",
-      "url": "https://www.twitch.tv/dexteee_r"
+      "url": "https://www.twitch.tv/dexteee_r",
+      "group": "social"
     },
     {
       "slug": "instagram",
       "label": "Instagram",
-      "icon": "📸",
-      "url": "https://instagram.com/dexter_elmzn"
+      "url": "https://instagram.com/dexter_elmzn",
+      "group": "social"
     },
     {
       "slug": "x",
       "label": "X",
-      "url": "https://x.com/dexter_elmzn"
+      "url": "https://x.com/dexter_elmzn",
+      "group": "social"
     },
     {
       "slug": "youtube",
       "label": "YouTube",
-      "url": "https://www.youtube.com/channel/UCpnhhVXXsgPDwqOwab1A8eQ"
+      "url": "https://www.youtube.com/channel/UCpnhhVXXsgPDwqOwab1A8eQ",
+      "group": "social"
     },
     {
       "slug": "site",
       "label": "elmzn.be",
-      "icon": "🌐",
-      "url": "https://elmzn.be"
+      "url": "https://elmzn.be",
+      "group": "social"
     },
     {
       "slug": "github",
       "label": "GitHub",
-      "url": "https://github.com/dexteee-r"
+      "url": "https://github.com/dexteee-r",
+      "group": "social"
     }
   ]
 }

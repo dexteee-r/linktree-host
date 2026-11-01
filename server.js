@@ -94,6 +94,25 @@ function bucketReferrer(referrerHeader, ownHost, userAgent) {
   return 'autre';
 }
 
+// Monitoring probes, crawlers, scanners, link-preview fetchers and HTTP
+// libraries announce themselves in the User-Agent. They still get the page,
+// they just aren't counted — otherwise an uptime check hitting "/" every
+// minute drowns the real traffic (1440 fake views a day).
+const BOT_UA = new RegExp(
+  [
+    'bot', 'crawl', 'spider', 'slurp', 'scan', 'check', 'monitor', 'probe',
+    'uptime', 'pingdom', 'lighthouse', 'headless', 'phantom', 'preview',
+    'facebookexternalhit', 'whatsapp', 'curl', 'wget', 'python', 'httpx',
+    'go-http', 'okhttp', 'axios', 'node-fetch', 'undici', 'java/', 'libwww',
+    'scrapy', 'nomorevibe', 'palo alto',
+  ].join('|'),
+  'i'
+);
+
+function isBot(userAgent) {
+  return !userAgent || BOT_UA.test(userAgent);
+}
+
 function bucketDevice(userAgent) {
   if (userAgent && /mobile|android|iphone|ipad|ipod/i.test(userAgent)) return 'mobile';
   return 'desktop';
@@ -162,13 +181,10 @@ app.get('/', pageLimiter, (req, res) => {
     return res.status(500).send('Configuration invalide.');
   }
 
-  insertEvent.run(
-    'view',
-    null,
-    bucketReferrer(req.get('Referrer'), req.hostname, req.get('User-Agent')),
-    bucketDevice(req.get('User-Agent')),
-    today()
-  );
+  const ua = req.get('User-Agent');
+  if (!isBot(ua)) {
+    insertEvent.run('view', null, bucketReferrer(req.get('Referrer'), req.hostname, ua), bucketDevice(ua), today());
+  }
   res.render('index', { config });
 });
 
@@ -183,7 +199,8 @@ app.get('/l/:slug', redirectLimiter, (req, res) => {
   const link = config.links.find((l) => l.slug === req.params.slug);
   if (!link) return res.status(404).send('Lien introuvable.');
 
-  insertEvent.run('click', link.slug, null, bucketDevice(req.get('User-Agent')), today());
+  const ua = req.get('User-Agent');
+  if (!isBot(ua)) insertEvent.run('click', link.slug, null, bucketDevice(ua), today());
 
   res.redirect(302, link.url);
 });
